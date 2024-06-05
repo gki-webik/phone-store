@@ -101,7 +101,7 @@ a {
 }
 .header__menu .header__menu_right_basket::after {
   position: absolute;
-  content: "3";
+  content: "0";
   border-radius: 9999px;
   padding: 2px 6px;
   background: white;

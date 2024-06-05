@@ -35,12 +35,16 @@ function functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
     return null;
 }
 
+let newStyle = document.createElement("style");
+newStyle.innerHTML = `.header__menu_right_basket::after {content: "${wk_basket.length}" !important;}`;
+
 button_basket.forEach((e) => {
     e.addEventListener("click", () => {
         const idProduct = Number(e.parentNode.parentNode.parentNode.parentNode.dataset.id);
         e.parentNode.parentNode.parentNode.parentNode.children[2].children[0].children[0].children[0].textContent = "Удалить";
 
         if (wk_basket.some(item => idProduct === item.id)) {
+            newStyle.innerHTML = `.header__menu_right_basket::after {content: "${wk_basket.length - 1}" !important;}`;
             e.parentNode.parentNode.parentNode.parentNode.children[2].children[0].children[0].children[0].textContent = "В корзину";
             wk_basket.splice(functiontofindIndexByKeyValue(wk_basket, "id", idProduct), 1);
             localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
@@ -55,6 +59,7 @@ button_basket.forEach((e) => {
         };
         wk_basket.push(wk_basket_newObj);
         localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
+        newStyle.innerHTML = `.header__menu_right_basket::after {content: "${wk_basket.length}" !important;}`;
     });
 });
 
@@ -93,3 +98,5 @@ basket_modal__cards__close_btn.addEventListener("click", () => {
     basket_modal.classList.remove("is-active");
     wk_basket_update();
 });
+
+document.head.appendChild(newStyle);
