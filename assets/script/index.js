@@ -8,6 +8,7 @@ const basket_modal = document.querySelector(".basket_modal");
 const basket_modal__cards__close_btn = document.querySelector(".basket_modal__cards__close_btn");
 const basket_item_box = document.querySelector(".basket_item_box");
 const basket_items = document.querySelectorAll(".block_3__main_cards_item");
+const basket_plusCount = document.querySelectorAll(".basket_plusCount");
 
 let wk_basket = JSON.parse(localStorage.getItem("wk_basket")) || [];
 
@@ -82,12 +83,12 @@ function wk_basket_update() {
                 resultCountAll += i.count;
                 resultPrice += Number(i.price.replaceAll("$", ""));
                 basket_item_box.innerHTML += `
-            <div class="basket_modal__item">
+            <div class="basket_modal__item" data-id="${i.id}">
                 <div class="basket_modal__item_img"><img src="${i.img}" alt=""></div>
                 <div class="basket_modal__item_content">
                     <div class="basket_modal__item_title">${i.title}</div>
                     <div class="basket_modal__item_btn">
-                        <div class="basket_modal__item_count"><span class="basket_minusCount">-</span><span>${i.count}</span><span class="basket_plusCount">+</span></div>
+                        <div class="basket_modal__item_count"><span onclick="basket_minusCount(${i.id})">-</span><span>${i.count}</span><span onclick="basket_plucCount(${i.id})">+</span></div>
                         <div class="basket_modal__item_price">${i.price}</div>
                         <div class="basket_modal__item_delete">×</div>
                     </div>
@@ -129,6 +130,13 @@ basket_modal__cards__close_btn.addEventListener("click", () => {
     basket_modal.classList.remove("is-active");
     wk_basket_update();
 });
+
+function basket_plucCount(props) {
+    console.log(props);
+}
+function basket_minusCount(props) {
+    console.log(props);
+}
 
 /* Добавление счета товаров в корзине иконке вверху */
 document.head.appendChild(newStyle);
