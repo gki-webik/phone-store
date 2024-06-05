@@ -66,29 +66,31 @@ button_basket.forEach((e) => {
 function wk_basket_update() {
     if (localStorage.getItem("wk_basket")) {
         const wk_basket = JSON.parse(localStorage.getItem("wk_basket"));
-        basket_item_box.innerHTML = ``;
-        wk_basket.forEach((i) => {
-            basket_item_box.innerHTML += `
-        <div class="basket_modal__item">
-            <div class="basket_modal__item_img"><img src="${i.img}" alt=""></div>
-            <div class="basket_modal__item_content">
-                <div class="basket_modal__item_title">${i.title}</div>
-                <div class="basket_modal__item_btn">
-                    <div class="basket_modal__item_count"><span>+</span><span>${i.count}</span><span>-</span></div>
-                    <div class="basket_modal__item_price">${i.price}</div>
-                    <div class="basket_modal__item_delete">×</div>
+        if (wk_basket.length != 0) {
+            basket_item_box.innerHTML = ``;
+            wk_basket.forEach((i) => {
+                basket_item_box.innerHTML += `
+            <div class="basket_modal__item">
+                <div class="basket_modal__item_img"><img src="${i.img}" alt=""></div>
+                <div class="basket_modal__item_content">
+                    <div class="basket_modal__item_title">${i.title}</div>
+                    <div class="basket_modal__item_btn">
+                        <div class="basket_modal__item_count"><span>+</span><span>${i.count}</span><span>-</span></div>
+                        <div class="basket_modal__item_price">${i.price}</div>
+                        <div class="basket_modal__item_delete">×</div>
+                    </div>
                 </div>
             </div>
-        </div>
-        `;
-        });
-    } else {
-        basket_item_box.innerHTML = `
+            `;
+            });
+            return;
+        }
+    }
+    basket_item_box.innerHTML = `
     <div class="basket_modal__item">
       Вы еще не добавили товаров в корзину
     </div>
     `;
-    }
 }
 header__menu_right_basket.addEventListener("click", () => {
     basket_modal.classList.add("is-active");
