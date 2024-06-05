@@ -99,7 +99,7 @@ function wk_basket_update() {
                     <div class="basket_modal__item_title">${i.title}</div>
                     <div class="basket_modal__item_btn">
                         <div class="basket_modal__item_count"><span onclick="basketCount(${i.id}, 'minus')">-</span><span>${i.count}</span><span onclick="basketCount(${i.id}, 'plus')">+</span></div>
-                        <div class="basket_modal__item_price">${Number(i.price.replaceAll("$", "")) * i.count}</div>
+                        <div class="basket_modal__item_price">${Number(i.price.replaceAll("$", "")) * i.count}$</div>
                         <div class="basket_modal__item_delete" onclick="basketCount(${i.id}, 'delete')">×</div>
                     </div>
                 </div>
