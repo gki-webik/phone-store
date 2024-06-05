@@ -25,7 +25,7 @@ open_btn.addEventListener("click", () => {
 /* Всем кнопкам на товары, что в корзине, кнопка Удалить из корзины */
 basket_items.forEach((e) => {
     if (wk_basket.some(item => Number(e.dataset.id) === item.id)) {
-        e.children[2].children[0].children[0].children[0].textContent = "Удалить";
+        e.querySelector(".button_basket").textContent = "Удалить";
     }
 });
 
