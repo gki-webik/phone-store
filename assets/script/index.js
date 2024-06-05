@@ -87,7 +87,7 @@ function wk_basket_update() {
                 <div class="basket_modal__item_content">
                     <div class="basket_modal__item_title">${i.title}</div>
                     <div class="basket_modal__item_btn">
-                        <div class="basket_modal__item_count"><span>+</span><span>${i.count}</span><span>-</span></div>
+                        <div class="basket_modal__item_count"><span class="basket_minusCount">-</span><span>${i.count}</span><span class="basket_plusCount">+</span></div>
                         <div class="basket_modal__item_price">${i.price}</div>
                         <div class="basket_modal__item_delete">×</div>
                     </div>
