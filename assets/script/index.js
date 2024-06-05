@@ -7,6 +7,7 @@ const header__menu_right_basket = document.querySelector(".header__menu_right_ba
 const basket_modal = document.querySelector(".basket_modal");
 const basket_modal__cards__close_btn = document.querySelector(".basket_modal__cards__close_btn");
 const basket_item_box = document.querySelector(".basket_item_box");
+const basket_items = document.querySelectorAll(".block_3__main_cards_item");
 
 let wk_basket = JSON.parse(localStorage.getItem("wk_basket")) || [];
 
@@ -19,15 +20,32 @@ open_btn.addEventListener("click", () => {
     menu_mask.classList.toggle("is-active");
 });
 
+basket_items.forEach((e) => {
+    if (wk_basket.some(item => Number(e.dataset.id) === item.id)) {
+        e.children[2].children[0].children[0].children[0].textContent = "Удалить";
+    }
+});
+
+function functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
+    for (var i = 0; i < arraytosearch.length; i++) {
+        if (arraytosearch[i][key] == valuetosearch) {
+            return i;
+        }
+    }
+    return null;
+}
+
 button_basket.forEach((e) => {
     e.addEventListener("click", () => {
         const idProduct = Number(e.parentNode.parentNode.parentNode.parentNode.dataset.id);
+        e.parentNode.parentNode.parentNode.parentNode.children[2].children[0].children[0].children[0].textContent = "Удалить";
 
         if (wk_basket.some(item => idProduct === item.id)) {
-            console.log("Уже есть");
+            e.parentNode.parentNode.parentNode.parentNode.children[2].children[0].children[0].children[0].textContent = "В корзину";
+            wk_basket.splice(functiontofindIndexByKeyValue(wk_basket, "id", idProduct), 1);
+            localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
             return;
         }
-
         const wk_basket_newObj = {
             id: idProduct,
             count: 1,

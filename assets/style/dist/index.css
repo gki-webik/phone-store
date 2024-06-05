@@ -923,7 +923,7 @@ a {
   background-color: #c9c9c9;
 }
 .basket_modal__item_img img {
-  width: 70px;
+  height: 70px;
 }
 .basket_modal__item_delete {
   padding: 0 5px;
