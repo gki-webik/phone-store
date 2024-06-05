@@ -8,6 +8,8 @@ const basket_modal = document.querySelector(".basket_modal");
 const basket_modal__cards__close_btn = document.querySelector(".basket_modal__cards__close_btn");
 const basket_item_box = document.querySelector(".basket_item_box");
 
+let wk_basket = JSON.parse(localStorage.getItem("wk_basket")) || [];
+
 close_btn.addEventListener("click", () => {
     header__menu.classList.toggle("is-active");
     menu_mask.classList.toggle("is-active");
@@ -20,37 +22,24 @@ open_btn.addEventListener("click", () => {
 button_basket.forEach((e) => {
     e.addEventListener("click", () => {
         const idProduct = Number(e.parentNode.parentNode.parentNode.parentNode.dataset.id);
-        if (localStorage.getItem("wk_basket")) {
-            let wk_basket = JSON.parse(localStorage.getItem("wk_basket"));
-            wk_basket.forEach((i) => {
-                if (idProduct !== i.id) {
-                    const wk_basket_newObj = {
-                        id: idProduct,
-                        count: 1,
-                        title: e.parentNode.parentNode.parentNode.parentNode.children[1].children[0].textContent,
-                        price: e.parentNode.parentNode.parentNode.parentNode.children[2].children[1].textContent,
-                        img: e.parentNode.parentNode.parentNode.parentNode.children[0].children[0].src,
-                    };
-                    wk_basket.push(wk_basket_newObj);
-                    localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
-                } else {
-                    console.log("Уже есть");
-                }
-            });
-        } else {
-            let wk_basket = [];
-            const wk_basket_newObj = {
-                id: idProduct,
-                count: 1,
-                title: e.parentNode.parentNode.parentNode.parentNode.children[1].children[0].textContent,
-                price: e.parentNode.parentNode.parentNode.parentNode.children[2].children[1].textContent,
-                img: e.parentNode.parentNode.parentNode.parentNode.children[0].children[0].src,
-            };
-            wk_basket.push(wk_basket_newObj);
-            localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
+
+        if (wk_basket.some(item => idProduct === item.id)) {
+            console.log("Уже есть");
+            return;
         }
+
+        const wk_basket_newObj = {
+            id: idProduct,
+            count: 1,
+            title: e.parentNode.parentNode.parentNode.parentNode.children[1].children[0].textContent,
+            price: e.parentNode.parentNode.parentNode.parentNode.children[2].children[1].textContent,
+            img: e.parentNode.parentNode.parentNode.parentNode.children[0].children[0].src,
+        };
+        wk_basket.push(wk_basket_newObj);
+        localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
     });
 });
+
 function wk_basket_update() {
     if (localStorage.getItem("wk_basket")) {
         const wk_basket = JSON.parse(localStorage.getItem("wk_basket"));
