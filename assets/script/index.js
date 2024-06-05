@@ -73,7 +73,6 @@ button_basket.forEach((e) => {
 /* Отображение товаров в корзине */
 function wk_basket_update() {
     if (localStorage.getItem("wk_basket")) {
-        const wk_basket = JSON.parse(localStorage.getItem("wk_basket"));
         if (wk_basket.length != 0) {
             basket_item_box.innerHTML = ``;
             let resultPrice = 0;
@@ -88,7 +87,7 @@ function wk_basket_update() {
                 <div class="basket_modal__item_content">
                     <div class="basket_modal__item_title">${i.title}</div>
                     <div class="basket_modal__item_btn">
-                        <div class="basket_modal__item_count"><span onclick="basket_minusCount(${i.id})">-</span><span>${i.count}</span><span onclick="basket_plucCount(${i.id})">+</span></div>
+                        <div class="basket_modal__item_count"><span onclick="basketMinusCount(${i.id})">-</span><span>${i.count}</span><span onclick="basketPlusCount(${i.id})">+</span></div>
                         <div class="basket_modal__item_price">${i.price}</div>
                         <div class="basket_modal__item_delete">×</div>
                     </div>
@@ -131,10 +130,10 @@ basket_modal__cards__close_btn.addEventListener("click", () => {
     wk_basket_update();
 });
 
-function basket_plucCount(props) {
+function basketPlusCount(props) {
     console.log(props);
 }
-function basket_minusCount(props) {
+function basketMinusCount(props) {
     console.log(props);
 }
 
