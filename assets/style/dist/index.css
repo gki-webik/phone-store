@@ -630,6 +630,8 @@ a {
       -ms-flex-direction: column;
           flex-direction: column;
   gap: 20px;
+  height: 100%;
+  padding-bottom: 30px;
   margin-top: 50px;
   -webkit-box-shadow: 0 0 30px rgba(228, 228, 228, 0.5490196078);
           box-shadow: 0 0 30px rgba(228, 228, 228, 0.5490196078);
