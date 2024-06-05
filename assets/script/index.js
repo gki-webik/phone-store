@@ -41,7 +41,18 @@ function functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
 
 /* Обновление счета товаров у корзины (иконки в меню) */
 let newStyle = document.createElement("style");
-newStyle.innerHTML = `.header__menu_right_basket::after {content: "${wk_basket.length}" !important;}`;
+function updCountBasket(props) {
+    if (props == "minus") {
+        wk_basketLength -= 1;
+    } else if (props == "plus") {
+        wk_basketLength += 1
+    } else {
+        wk_basketLength = wk_basket.length
+    }
+    newStyle.innerHTML = `.header__menu_right_basket::after {content: "${wk_basketLength}" !important;}`;
+    document.head.appendChild(newStyle);
+}
+updCountBasket();
 
 /* Добавить/Удалить товар  */
 button_basket.forEach((e) => {
@@ -51,7 +62,7 @@ button_basket.forEach((e) => {
         bsItemParentNode.querySelector(".button_basket").textContent = "Удалить";
 
         if (wk_basket.some(item => idProduct === item.id)) {
-            newStyle.innerHTML = `.header__menu_right_basket::after {content: "${wk_basket.length - 1}" !important;}`;
+            updCountBasket("minus");
             bsItemParentNode.querySelector(".button_basket").textContent = "В корзину";
             wk_basket.splice(functiontofindIndexByKeyValue(wk_basket, "id", idProduct), 1);
             localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
@@ -66,7 +77,7 @@ button_basket.forEach((e) => {
         };
         wk_basket.push(wk_basket_newObj);
         localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
-        newStyle.innerHTML = `.header__menu_right_basket::after {content: "${wk_basket.length}" !important;}`;
+        updCountBasket();
     });
 });
 
@@ -143,9 +154,8 @@ function basketCount(propsId, propsAction) {
         }
         localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
         wk_basket_update();
+        updCountBasket();
     } else {
         console.error("В корзине не найден товар с таким ID");
     }
 }
-/* Добавление счета товаров в корзине иконке вверху */
-document.head.appendChild(newStyle);
