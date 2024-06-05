@@ -110,7 +110,21 @@ a
         background-size: contain
         width: 137px
         height: 46px
+.header__menu_right_basket.is-pc
+    display: block
+.header__menu_right_basket.is-mobile
+    display: none
+
+@media screen and (max-width: 645px)
+    .header__menu_left
+        width: 80% !important
 @media screen and (max-width: 1090px)
+    .header__menu_right_basket.is-pc
+        display: none
+    .header__menu_right_basket.is-mobile
+        display: block
+    .header__menu_left
+        width: 90%
     .menu_mask.is-active
         height: 100vh
         width: 100vw

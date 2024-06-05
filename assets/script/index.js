@@ -3,9 +3,9 @@ const open_btn = document.querySelector(".open_btn");
 const header__menu = document.querySelector(".header__menu");
 const menu_mask = document.querySelector(".menu_mask");
 const button_basket = document.querySelectorAll(".button_basket");
-const header__menu_right_basket = document.querySelector(".header__menu_right_basket");
+const header__menu_right_basket = document.querySelectorAll(".header__menu_right_basket");
 const basket_modal = document.querySelector(".basket_modal");
-const basket_modal__cards__close_btn = document.querySelector(".basket_modal__cards__close_btn");
+const basket_modal__cards__close_btn = document.querySelectorAll(".basket_modal__cards__close_btn");
 const basket_item_box = document.querySelector(".basket_item_box");
 const basket_items = document.querySelectorAll(".block_3__main_cards_item");
 const basket_plusCount = document.querySelectorAll(".basket_plusCount");
@@ -132,14 +132,18 @@ function wk_basket_update() {
 }
 
 /* Модалка корзины */
-header__menu_right_basket.addEventListener("click", () => {
-    basket_modal.classList.add("is-active");
-    wk_basket_update();
+header__menu_right_basket.forEach((e) => {
+    e.addEventListener("click", () => {
+        basket_modal.classList.add("is-active");
+        wk_basket_update();
+    });
 });
-basket_modal__cards__close_btn.addEventListener("click", () => {
-    basket_modal.classList.remove("is-active");
-    wk_basket_update();
-});
+basket_modal__cards__close_btn.forEach((e) => {
+    e.addEventListener("click", () => {
+        basket_modal.classList.remove("is-active");
+        wk_basket_update();
+    });
+})
 
 /* +, - и удаление в Корзине */
 function basketCount(propsId, propsAction) {
