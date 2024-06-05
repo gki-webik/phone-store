@@ -865,6 +865,34 @@ a {
 .basket_modal__item:last-child {
   padding-bottom: 30px;
 }
+.basket_modal__item.result {
+  padding-top: 23px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  gap: 10px;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+}
+.basket_modal__item.result button {
+  font-size: 1rem;
+  font-family: "Inter-Regular";
+  background-color: #C14231;
+  padding: 15px 50px;
+  border-radius: 7px;
+  color: white;
+  cursor: pointer;
+  border: none;
+  margin-top: 10px;
+  width: 100%;
+  -webkit-transition: "all 0.15s ease-in-out";
+  transition: "all 0.15s ease-in-out";
+}
+.basket_modal__item.result button:hover {
+  background-color: #c1321f;
+}
 .basket_modal__item_title {
   font-size: 1rem;
   font-weight: 600;

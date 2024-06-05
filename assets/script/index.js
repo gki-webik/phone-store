@@ -11,6 +11,7 @@ const basket_items = document.querySelectorAll(".block_3__main_cards_item");
 
 let wk_basket = JSON.parse(localStorage.getItem("wk_basket")) || [];
 
+/* Закрытие/Открытие меню */
 close_btn.addEventListener("click", () => {
     header__menu.classList.toggle("is-active");
     menu_mask.classList.toggle("is-active");
@@ -20,12 +21,14 @@ open_btn.addEventListener("click", () => {
     menu_mask.classList.toggle("is-active");
 });
 
+/* Всем кнопкам на товары, что в корзине, кнопка Удалить из корзины */
 basket_items.forEach((e) => {
     if (wk_basket.some(item => Number(e.dataset.id) === item.id)) {
         e.children[2].children[0].children[0].children[0].textContent = "Удалить";
     }
 });
 
+/* Поиск индекса элемента */
 function functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
     for (var i = 0; i < arraytosearch.length; i++) {
         if (arraytosearch[i][key] == valuetosearch) {
@@ -35,17 +38,20 @@ function functiontofindIndexByKeyValue(arraytosearch, key, valuetosearch) {
     return null;
 }
 
+/* Обновление счета товаров у корзины (иконки в меню) */
 let newStyle = document.createElement("style");
 newStyle.innerHTML = `.header__menu_right_basket::after {content: "${wk_basket.length}" !important;}`;
 
+/* Добавить/Удалить товар  */
 button_basket.forEach((e) => {
     e.addEventListener("click", () => {
-        const idProduct = Number(e.parentNode.parentNode.parentNode.parentNode.dataset.id);
-        e.parentNode.parentNode.parentNode.parentNode.children[2].children[0].children[0].children[0].textContent = "Удалить";
+        const bsItemParentNode = e.parentNode.parentNode.parentNode.parentNode;
+        const idProduct = Number(bsItemParentNode.dataset.id);
+        bsItemParentNode.querySelector(".button_basket").textContent = "Удалить";
 
         if (wk_basket.some(item => idProduct === item.id)) {
             newStyle.innerHTML = `.header__menu_right_basket::after {content: "${wk_basket.length - 1}" !important;}`;
-            e.parentNode.parentNode.parentNode.parentNode.children[2].children[0].children[0].children[0].textContent = "В корзину";
+            bsItemParentNode.querySelector(".button_basket").textContent = "В корзину";
             wk_basket.splice(functiontofindIndexByKeyValue(wk_basket, "id", idProduct), 1);
             localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
             return;
@@ -53,9 +59,9 @@ button_basket.forEach((e) => {
         const wk_basket_newObj = {
             id: idProduct,
             count: 1,
-            title: e.parentNode.parentNode.parentNode.parentNode.children[1].children[0].textContent,
-            price: e.parentNode.parentNode.parentNode.parentNode.children[2].children[1].textContent,
-            img: e.parentNode.parentNode.parentNode.parentNode.children[0].children[0].src,
+            title: bsItemParentNode.querySelector(".block_3__main_cards_item__center_title").textContent,
+            price: bsItemParentNode.querySelector(".block_3__main_cards_item__bottom_2__price").textContent,
+            img: bsItemParentNode.querySelector(".block_3__main_cards_item__img > img").src,
         };
         wk_basket.push(wk_basket_newObj);
         localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
@@ -63,12 +69,18 @@ button_basket.forEach((e) => {
     });
 });
 
+/* Отображение товаров в корзине */
 function wk_basket_update() {
     if (localStorage.getItem("wk_basket")) {
         const wk_basket = JSON.parse(localStorage.getItem("wk_basket"));
         if (wk_basket.length != 0) {
             basket_item_box.innerHTML = ``;
+            let resultPrice = 0;
+            let resultCount = 0;
+            let resultCountAll = 0;
             wk_basket.forEach((i) => {
+                resultCountAll += i.count;
+                resultPrice += Number(i.price.replaceAll("$", ""));
                 basket_item_box.innerHTML += `
             <div class="basket_modal__item">
                 <div class="basket_modal__item_img"><img src="${i.img}" alt=""></div>
@@ -83,6 +95,21 @@ function wk_basket_update() {
             </div>
             `;
             });
+            resultCount += wk_basket.length
+            basket_item_box.innerHTML += `
+            <div class="basket_modal__item result">
+                <div>
+                <b>Товаров</b>: ${resultCount}
+                </div>
+                <div>
+                <b>Товаров (вкл. шт.)</b>: ${resultCountAll}
+                </div>
+                <div>
+                <b>Итоговая цена</b>: ${resultPrice}$
+                </div>
+                <button>Оформить</button>
+            </div>
+            `;
             return;
         }
     }
@@ -92,6 +119,8 @@ function wk_basket_update() {
     </div>
     `;
 }
+
+/* Модалка корзины */
 header__menu_right_basket.addEventListener("click", () => {
     basket_modal.classList.add("is-active");
     wk_basket_update();
@@ -101,4 +130,5 @@ basket_modal__cards__close_btn.addEventListener("click", () => {
     wk_basket_update();
 });
 
+/* Добавление счета товаров в корзине иконке вверху */
 document.head.appendChild(newStyle);
