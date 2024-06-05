@@ -80,16 +80,16 @@ function wk_basket_update() {
             let resultCountAll = 0;
             wk_basket.forEach((i) => {
                 resultCountAll += i.count;
-                resultPrice += Number(i.price.replaceAll("$", ""));
+                resultPrice += Number(i.price.replaceAll("$", "")) * i.count;
                 basket_item_box.innerHTML += `
             <div class="basket_modal__item" data-id="${i.id}">
                 <div class="basket_modal__item_img"><img src="${i.img}" alt=""></div>
                 <div class="basket_modal__item_content">
                     <div class="basket_modal__item_title">${i.title}</div>
                     <div class="basket_modal__item_btn">
-                        <div class="basket_modal__item_count"><span onclick="basketMinusCount(${i.id})">-</span><span>${i.count}</span><span onclick="basketPlusCount(${i.id})">+</span></div>
-                        <div class="basket_modal__item_price">${i.price}</div>
-                        <div class="basket_modal__item_delete">×</div>
+                        <div class="basket_modal__item_count"><span onclick="basketCount(${i.id}, 'minus')">-</span><span>${i.count}</span><span onclick="basketCount(${i.id}, 'plus')">+</span></div>
+                        <div class="basket_modal__item_price">${Number(i.price.replaceAll("$", "")) * i.count}</div>
+                        <div class="basket_modal__item_delete" onclick="basketCount(${i.id}, 'delete')">×</div>
                     </div>
                 </div>
             </div>
@@ -130,12 +130,22 @@ basket_modal__cards__close_btn.addEventListener("click", () => {
     wk_basket_update();
 });
 
-function basketPlusCount(props) {
-    console.log(props);
+/* +, - и удаление в Корзине */
+function basketCount(propsId, propsAction) {
+    const indexCount = functiontofindIndexByKeyValue(wk_basket, "id", propsId);
+    if (indexCount != null) {
+        if (propsAction == "plus") {
+            wk_basket[indexCount].count += 1
+        } else if (propsAction == "minus") {
+            wk_basket[indexCount].count != 1 ? wk_basket[indexCount].count -= 1 : null;
+        } else if (propsAction == "delete") {
+            wk_basket.splice(indexCount, 1);
+        }
+        localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
+        wk_basket_update();
+    } else {
+        console.error("В корзине не найден товар с таким ID");
+    }
 }
-function basketMinusCount(props) {
-    console.log(props);
-}
-
 /* Добавление счета товаров в корзине иконке вверху */
 document.head.appendChild(newStyle);
