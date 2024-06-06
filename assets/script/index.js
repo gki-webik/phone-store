@@ -57,32 +57,29 @@ function updCountBasket(props) {
 updCountBasket();
 
 /* Добавить/Удалить товар  */
-button_basket.forEach((e) => {
-    e.addEventListener("click", () => {
-        const bsItemParentNode = e.parentNode.parentNode.parentNode.parentNode;
-        const idProduct = Number(bsItemParentNode.dataset.id);
-        bsItemParentNode.querySelector(".button_basket").textContent = "Удалить";
+function buttonBasket(props) {
+    const bsItemParentNode = document.querySelector(".block_3__main_cards_item[data-id='" + props + "']");
+    const idProduct = props;
+    bsItemParentNode.querySelector(".button_basket").textContent = "Удалить";
 
-        if (wk_basket.some(item => idProduct === item.id)) {
-            updCountBasket("minus");
-            bsItemParentNode.querySelector(".button_basket").textContent = "В корзину";
-            wk_basket.splice(functiontofindIndexByKeyValue(wk_basket, "id", idProduct), 1);
-            localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
-            return;
-        }
-        const wk_basket_newObj = {
-            id: idProduct,
-            count: 1,
-            title: bsItemParentNode.querySelector(".block_3__main_cards_item__center_title").textContent,
-            price: bsItemParentNode.querySelector(".block_3__main_cards_item__bottom_2__price").textContent,
-            img: bsItemParentNode.querySelector(".block_3__main_cards_item__img > img").src,
-        };
-        wk_basket.push(wk_basket_newObj);
+    if (wk_basket.some(item => idProduct === item.id)) {
+        updCountBasket("minus");
+        bsItemParentNode.querySelector(".button_basket").textContent = "В корзину";
+        wk_basket.splice(functiontofindIndexByKeyValue(wk_basket, "id", idProduct), 1);
         localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
-        updCountBasket();
-    });
-});
-
+        return;
+    }
+    const wk_basket_newObj = {
+        id: idProduct,
+        count: 1,
+        title: bsItemParentNode.querySelector(".block_3__main_cards_item__center_title").textContent,
+        price: bsItemParentNode.querySelector(".block_3__main_cards_item__bottom_2__price").textContent,
+        img: bsItemParentNode.querySelector(".block_3__main_cards_item__img > img").src,
+    };
+    wk_basket.push(wk_basket_newObj);
+    localStorage.setItem("wk_basket", JSON.stringify(wk_basket));
+    updCountBasket();
+}
 /* Отображение товаров в корзине */
 function wk_basket_update() {
     if (localStorage.getItem("wk_basket")) {
@@ -190,7 +187,6 @@ let arrProduct = [
         category: 'xiomi'
     }
 ];
-outputProducts(arrProduct);
 function outputProducts(props) {
     block_3__main_cards.innerHTML = "";
     props.forEach((item) => {
@@ -210,7 +206,7 @@ function outputProducts(props) {
                             <div class="block_3__main_cards_item__bottom">
                                 <div class="block_3__main_cards_item__bottom_1">
                                     <div class="block_3__main_cards_item__bottom_1__button">
-                                        <button class="button_basket">В корзину</button>
+                                        <button class="button_basket" onclick="buttonBasket(${item.id})">В корзину</button>
                                     </div>
                                     <div class="block_3__main_cards_item__bottom_1__other">Подробнее</div>
                                 </div>
@@ -221,9 +217,10 @@ function outputProducts(props) {
     });
 
 }
+outputProducts(arrProduct);
 
 /* Фильтры */
-var newArray = arrProduct.slice();
+let newArray = arrProduct.slice();
 checkbox_filter.forEach(c => {
     c.addEventListener("change", function () {
         newArray = arrProduct.filter((item) => {

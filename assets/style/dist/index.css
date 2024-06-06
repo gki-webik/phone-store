@@ -728,6 +728,7 @@ a {
   display: flex;
   gap: 30px;
   margin-top: 50px;
+  width: 100%;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   -webkit-box-align: center;
