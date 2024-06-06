@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    
+    <style>
+    label{
+    cursor: pointer;
+    }
+    [type="checkbox"]{
+    display: none;
+    }
+    .brand-0,.brand-1{
+    display: none;
+    }
+    .vis{
+    display: block;
+    }
+    .brand-0{
+    margin: 10px;
+    background-color: yellow;
+    }
+    .brand-1{
+    margin: 10px;
+    background-color: lightsteelblue;
+    }
+    </style>
+   
+  </head>
+  <body>
+    <div class="filters">  
+    
+    <div class="checkbox">
+    <input class="custom-checkbox" type="checkbox" id="newbrands-0" value="10" />
+    <label for="newbrands-0">Brand-0</label>
+    </div>
+    
+    <div class="checkbox">
+    <input class="custom-checkbox" type="checkbox" id="newbrands-1" value="20" />
+    <label for="newbrands-1">Brand-1</label>
+    </div>
+    
+    </div>
+    
+    <div class="brand-0">123</div>
+    <div class="brand-0">123</div>
+    <div class="brand-0">123</div>
+    
+    <div class="brand-1">456</div>
+    <div class="brand-1">456</div>
+    <div class="brand-1">456</div>
+    
+    <script>
+    document.querySelector('.filters').addEventListener(
+    'click',
+    (event) => {
+    if(event.target.tagName == 'LABEL' || event.target.tagName == 'INPUT'){
+    const labelText = event.target.textContent,
+          val = event.target.value;
+        if(labelText) document.querySelectorAll('.' + labelText.toLowerCase()).forEach( el => el.classList.toggle('vis'));
+      }
+      }
+    )
+    </script>
+  </body>
+</html>

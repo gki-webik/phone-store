@@ -37,6 +37,12 @@ a {
   margin: 0 auto;
 }
 
+.hidden {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
 .header__menu {
   width: 100%;
   display: -webkit-box;
