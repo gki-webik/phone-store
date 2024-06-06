@@ -9,49 +9,12 @@
 
 <body>
     <div class="options">
-        <input type="checkbox" onchange="" name="Job" rel="teacher" value="teacher " id="teacher math" checked>Teacher
-        <input type="checkbox" onchange="" name="Job" rel="lawyer" value="lawyer" id="lawyer" checked>Lawyer
-        <input type="checkbox" onchange="" name="Job" rel="doctor" value="doctor" id="doctor" checked>Doctor
+        <input type="checkbox" class="oso" id="lawyer" checked>Lawyer
+        <input type="checkbox" class="oso" id="teacher math" checked>Teacher
+        <input type="checkbox" class="oso" id="doctor" checked>Doctor
     </div>
     <div id="result"></div>
     <script>
-        // var array = [
-        //     {"date":"Jan 1", "job":"teacher"},
-        //     {"date":"Jan 1", "job":"lawyer"},
-        //     {"date":"Jan 2", "job":"doctor"},
-        //     {"date":"Jan 4", "job":"doctor"}
-        // ];
-
-        // var newArray = array.slice();
-        // showArray(newArray);
-
-        // function showArray(array) {
-        //     document.getElementById("result").innerHTML = JSON.stringify(array);
-        // }
-
-        // function handleChange() {
-
-        //   newArray = array.filter(filterByJob);
-
-        //   showArray(newArray);
-        // }
-
-        // function filterByJob(e) {
-        //   console.log(e);
-        //   return document.getElementById(e.job).checked;
-        // }
-
-        document.querySelector(".options").addEventListener("click", function (event) {
-            event.stopPropagation();
-
-            event.target.addEventListener("change", function (e) {
-                e.stopPropagation();
-                console.log(event.target);
-                handleChange();
-            });
-            //handleChange();
-            //tr_types[event.target.name] = event.target.checked;
-        });
 
         var array = [
             { date: "Jan 1", job: "teacher math" },
@@ -60,24 +23,33 @@
             { date: "Jan 4", job: "doctor" }
         ];
 
-        var newArray = array.slice();
+        /* var newArray = array.slice();
         showArray(newArray);
 
         function showArray(array) {
             document.getElementById("result").innerHTML = JSON.stringify(array);
         }
 
-        function handleChange() {
-            newArray = array.filter(filterByJob);
 
-            showArray(newArray);
-        }
+        document.querySelectorAll(".oso").forEach(dd => {
+            dd.addEventListener("change", function (e) {
+                newArray = array.filter((idf) => {
+                    return document.getElementById(idf.job).checked;
+                });
 
-        function filterByJob(e) {
-            console.log(e);
-            return document.getElementById(e.job).checked;
-        }
+                showArray(newArray);
+            });
+        }) */
 
+        var newArray = array.slice();
+        document.querySelectorAll(".oso").forEach(dd => {
+            dd.addEventListener("change", function (e) {
+                newArray = array.filter((idf) => {
+                    return document.getElementById(idf.job).checked;
+                });
+                console.log(newArray);
+            });
+        })
     </script>
 </body>
 

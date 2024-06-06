@@ -201,13 +201,15 @@
                         <div class="block_3__main_filter_item">
                             <div class="block_3__main_filter_item_title">Модель</div>
                             <label>
-                                <input type="checkbox" class="checkbox_filter" data-filter="apple"> Apple
+                                <input type="checkbox" class="checkbox_filter" id="apple" checked>
+                                Apple
                             </label>
                             <label>
-                                <input type="checkbox" class="checkbox_filter" data-filter="samsung"> Samsung
+                                <input type="checkbox" class="checkbox_filter" id="samsung" checked> Samsung
                             </label>
                             <label>
-                                <input type="checkbox" class="checkbox_filter" data-filter="xiomi"> Xiomi
+                                <input type="checkbox" class="checkbox_filter" id="xiomi" checked>
+                                Xiomi
                             </label>
                             <p>
                                 Показать больше
@@ -273,7 +275,6 @@
     <script>
         let block_3__main_cards = document.querySelector(".block_3__main_cards");
         let checkbox_filter = document.querySelectorAll('.checkbox_filter');
-        let checkbox_filterArray = [];
         let arrProduct = [
             {
                 id: 1,
@@ -291,22 +292,16 @@
             },
             {
                 id: 3,
-                title: 'Hiomi IPhone 11',
+                title: 'Xiomi IPhone 11',
                 img: './assets/images/phone4.png',
                 price: 395,
-                category: 'hiomi'
+                category: 'xiomi'
             }
         ];
+        outputProducts(arrProduct);
         function outputProducts(props) {
-            if (props == "checked") {
-                arrProduct = arrProduct.filter((e) => {
-                    checkbox_filterArray.forEach(c => {
-                        e.category === c;
-                    });
-                });
-                console.log(checkbox_filterArray);
-            }
-            arrProduct.forEach((item) => {
+            block_3__main_cards.innerHTML = "";
+            props.forEach((item) => {
                 block_3__main_cards.innerHTML += `
             <div class="block_3__main_cards_item" data-id="${item.id}" data-category="${item.category}">
                             <div class="block_3__main_cards_item__img">
@@ -334,13 +329,16 @@
             });
 
         }
-        checkbox_filter.forEach((e) => {
-            e.addEventListener("change", () => {
-                checkbox_filterArray.push(e.dataset.filter);
-                outputProducts("checked");
+
+        var newArray = arrProduct.slice();
+        checkbox_filter.forEach(c => {
+            c.addEventListener("change", function () {
+                newArray = arrProduct.filter((item) => {
+                    return document.getElementById(item.category).checked;
+                });
+                outputProducts(newArray);
             });
         });
-        outputProducts();
     </script>
     <script src="./assets/script/index.js"></script>
 </body>
