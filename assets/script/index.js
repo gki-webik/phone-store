@@ -9,6 +9,8 @@ const basket_modal__cards__close_btn = document.querySelectorAll(".basket_modal_
 const basket_item_box = document.querySelector(".basket_item_box");
 const basket_items = document.querySelectorAll(".block_3__main_cards_item");
 const basket_plusCount = document.querySelectorAll(".basket_plusCount");
+const block_3__main_cards = document.querySelector(".block_3__main_cards");
+const checkbox_filter = document.querySelectorAll('.checkbox_filter');
 
 let wk_basket = JSON.parse(localStorage.getItem("wk_basket")) || [];
 
@@ -163,3 +165,70 @@ function basketCount(propsId, propsAction) {
         console.error("В корзине не найден товар с таким ID");
     }
 }
+
+/* Товары */
+let arrProduct = [
+    {
+        id: 1,
+        title: 'Apple IPhone 11',
+        img: './assets/images/phone4.png',
+        price: 169,
+        category: 'apple'
+    },
+    {
+        id: 2,
+        title: 'Samsung IPhone 11',
+        img: './assets/images/phone4.png',
+        price: 230,
+        category: 'samsung'
+    },
+    {
+        id: 3,
+        title: 'Xiomi IPhone 11',
+        img: './assets/images/phone4.png',
+        price: 395,
+        category: 'xiomi'
+    }
+];
+outputProducts(arrProduct);
+function outputProducts(props) {
+    block_3__main_cards.innerHTML = "";
+    props.forEach((item) => {
+        block_3__main_cards.innerHTML += `
+            <div class="block_3__main_cards_item" data-id="${item.id}" data-category="${item.category}">
+                            <div class="block_3__main_cards_item__img">
+                                <img src="${item.img}" alt="">
+                            </div>
+                            <div class="block_3__main_cards_item__center">
+                                <div class="block_3__main_cards_item__center_title">${item.title}</div>
+                                <div class="block_3__main_cards_item__center_color">
+                                    <span class="block_3__main_cards_item__center_color_1"></span>
+                                    <span class="block_3__main_cards_item__center_color_2"></span>
+                                    <span class="block_3__main_cards_item__center_color_3"></span>
+                                </div>
+                            </div>
+                            <div class="block_3__main_cards_item__bottom">
+                                <div class="block_3__main_cards_item__bottom_1">
+                                    <div class="block_3__main_cards_item__bottom_1__button">
+                                        <button class="button_basket">В корзину</button>
+                                    </div>
+                                    <div class="block_3__main_cards_item__bottom_1__other">Подробнее</div>
+                                </div>
+                                <div class="block_3__main_cards_item__bottom_2__price">${item.price}$</div>
+                            </div>
+                        </div>
+            `;
+    });
+
+}
+
+/* Фильтры */
+var newArray = arrProduct.slice();
+checkbox_filter.forEach(c => {
+    c.addEventListener("change", function () {
+        newArray = arrProduct.filter((item) => {
+            return document.getElementById(item.category).checked;
+        });
+        outputProducts(newArray);
+    });
+});
