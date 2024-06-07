@@ -448,6 +448,7 @@ a
                 font-size: 1.7rem
             &_item
                 display: flex
+                gap: 7px
                 padding: 0 30px
                 flex-direction: column
                 &_title
@@ -667,3 +668,21 @@ a
             cursor: pointer
 .basket_modal:not(.is-active)
     display: none
+
+.label_filter_checkbox
+    display: flex
+    align-items: center
+    cursor: pointer
+    *
+        user-select: none
+.filter_checkbox
+    width: 15px
+    margin-right: 10px
+    height: 15px
+    outline: 1px solid gray
+    border-radius: 5px
+    display: inline-flex
+    justify-content: center
+    align-items: center
+    &.is-checked
+        background-color: #0088ff

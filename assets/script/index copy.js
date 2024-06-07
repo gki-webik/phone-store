@@ -190,14 +190,13 @@ checkbox_filter.forEach(c => {
     c.addEventListener("change", function () {
         newArrayProduct = arrProduct.filter((item) => {
             if (c.dataset.type == "model") {
-                return document.getElementById(item.model).checked === false;
+                return document.getElementById(item.model).checked;
             } else if (c.dataset.type == "color") {
-                return document.getElementById(item.color).checked === false;
+                return document.getElementById(item.color).checked;
             }
         });
         outputProducts(newArrayProduct);
     });
-    outputProducts(arrProduct);
 });
 
 label_filter_checkbox.forEach(e => {
