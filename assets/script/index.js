@@ -178,35 +178,94 @@ let arrProduct = [
 function outputProducts(props) {
     block_3__main_cards.innerHTML = "";
     props.forEach((item) => {
-        block_3__main_cards.innerHTML += `<div class="block_3__main_cards_item" data-id="${item.id}"><div class="block_3__main_cards_item__img"><img src="${item.img}" alt=""></div><div class="block_3__main_cards_item__center"><div class="block_3__main_cards_item__center_title">${item.title}</div><div class="block_3__main_cards_item__center_color"><span class="block_3__main_cards_item__center_color_1"></span><span class="block_3__main_cards_item__center_color_2"></span><span class="block_3__main_cards_item__center_color_3"></span></div></div><div class="block_3__main_cards_item__bottom"><div class="block_3__main_cards_item__bottom_1"><div class="block_3__main_cards_item__bottom_1__button"><button class="button_basket">В корзину</button></div><div class="block_3__main_cards_item__bottom_1__other">Подробнее</div></div><div class="block_3__main_cards_item__bottom_2__price">${item.price}$</div></div></div>`;
+        block_3__main_cards.innerHTML += `<div class="block_3__main_cards_item" data-id="${item.id}" data-test="ffef" data-model="${item.model}" data-color="${item.color}"><div class="block_3__main_cards_item__img"><img src="${item.img}" alt=""></div><div class="block_3__main_cards_item__center"><div class="block_3__main_cards_item__center_title">${item.title}</div><div class="block_3__main_cards_item__center_color"><span class="block_3__main_cards_item__center_color_1"></span><span class="block_3__main_cards_item__center_color_2"></span><span class="block_3__main_cards_item__center_color_3"></span></div></div><div class="block_3__main_cards_item__bottom"><div class="block_3__main_cards_item__bottom_1"><div class="block_3__main_cards_item__bottom_1__button"><button class="button_basket">В корзину</button></div><div class="block_3__main_cards_item__bottom_1__other">Подробнее</div></div><div class="block_3__main_cards_item__bottom_2__price">${item.price}$</div></div></div>`;
     });
 
 }
 outputProducts(arrProduct);
 
-/* Фильтры */
-var newArrayProduct = arrProduct.slice();
-checkbox_filter.forEach(c => {
-    c.addEventListener("change", function () {
-        newArrayProduct = arrProduct.filter((item) => {
-            if (c.dataset.type == "model") {
-                return document.getElementById(item.model).checked === false;
-            } else if (c.dataset.type == "color") {
-                return document.getElementById(item.color).checked === false;
+/* Фильтры *//* 
+document.addEventListener('DOMContentLoaded', function () {
+    const checkboxes = document.querySelectorAll('.checkbox_filter[data-type="model"]');
+    const products = document.querySelectorAll('.block_3__main_cards_item');
+
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            filterProducts();
+        });
+    });
+
+    function filterProducts() {
+        const selectedBrands = [...checkboxes]
+            .filter(checkbox => checkbox.checked)
+            .map(checkbox => checkbox.value);
+
+        products.forEach(product => {
+            const productBrand = product.getAttribute('data-model');
+            if (selectedBrands.length === 0 || selectedBrands.includes(productBrand)) {
+                product.style.display = 'block';
+            } else {
+                product.style.display = 'none';
             }
         });
-        outputProducts(newArrayProduct);
+    }
+
+    filterProducts();
+}); */
+
+document.addEventListener('DOMContentLoaded', function () {
+    const filterContainers = document.querySelectorAll('.block_3__main_filter_item');
+
+    filterContainers.forEach(container => {
+        const checkboxes = container.querySelectorAll('.checkbox_filter');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', function () {
+                filterProducts();
+            });
+        });
     });
-    outputProducts(arrProduct);
+
+    function filterProducts() {
+        const products = document.querySelectorAll('.block_3__main_cards_item');
+        const filters = {};
+
+        filterContainers.forEach(container => {
+            const type = container.getAttribute('data-type');
+            const selectedValues = [...container.querySelectorAll('.checkbox_filter')]
+                .filter(checkbox => checkbox.checked)
+                .map(checkbox => checkbox.value);
+
+            if (selectedValues.length > 0) {
+                filters[type] = selectedValues;
+            }
+        });
+
+        products.forEach(product => {
+            let shouldDisplay = true;
+
+            for (const [type, values] of Object.entries(filters)) {
+                const productValue = product.getAttribute(`data-${type}`);
+                if (!values.includes(productValue)) {
+                    shouldDisplay = false;
+                    break;
+                }
+            }
+
+            product.style.display = shouldDisplay ? 'flex' : 'none';
+        });
+    }
+
+    filterProducts();
+});
+
+filter_checkbox.forEach(e => {
+    e.addEventListener("click", function () {
+        e.classList.toggle("is-checked");
+    });
 });
 
 label_filter_checkbox.forEach(e => {
     e.addEventListener("click", function (i) {
         i.target.querySelector(".filter_checkbox").classList.toggle("is-checked");
     });
-})
-filter_checkbox.forEach(e => {
-    e.addEventListener("click", function () {
-        e.classList.toggle("is-checked");
-    });
-})
+});

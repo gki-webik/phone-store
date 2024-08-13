@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Filter</title>
+    <style>
+        .block_3__main_cards_item {
+            display: none;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="filter_container" data-type="model">
+        <h3>Filter by Model</h3>
+        <label><input type="checkbox" class="checkbox_filter" value="ModelA"> Model A</label>
+        <label><input type="checkbox" class="checkbox_filter" value="ModelB"> Model B</label>
+    </div>
+
+    <div class="filter_container" data-type="color">
+        <h3>Filter by Color</h3>
+        <label><input type="checkbox" class="checkbox_filter" value="Red"> Red</label>
+        <label><input type="checkbox" class="checkbox_filter" value="Blue"> Blue</label>
+    </div>
+
+    <div class="block_3__main_cards">
+        <div class="block_3__main_cards_item" data-model="ModelA" data-color="Red">
+            Product 1 - Model A, Red
+        </div>
+        <div class="block_3__main_cards_item" data-model="ModelB" data-color="Blue">
+            Product 2 - Model B, Blue
+        </div>
+        <div class="block_3__main_cards_item" data-model="ModelA" data-color="Blue">
+            Product 3 - Model A, Blue
+        </div>
+        <div class="block_3__main_cards_item" data-model="ModelB" data-color="Red">
+            Product 4 - Model B, Red
+        </div>
+    </div>
+
+    <script>document.addEventListener('DOMContentLoaded', function () {
+            const filterContainers = document.querySelectorAll('.filter_container');
+
+            filterContainers.forEach(container => {
+                const checkboxes = container.querySelectorAll('.checkbox_filter');
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener('change', function () {
+                        filterProducts();
+                    });
+                });
+            });
+
+            function filterProducts() {
+                const products = document.querySelectorAll('.block_3__main_cards_item');
+                const filters = {};
+
+                filterContainers.forEach(container => {
+                    const type = container.getAttribute('data-type');
+                    const selectedValues = [...container.querySelectorAll('.checkbox_filter')]
+                        .filter(checkbox => checkbox.checked)
+                        .map(checkbox => checkbox.value);
+
+                    if (selectedValues.length > 0) {
+                        filters[type] = selectedValues;
+                    }
+                });
+
+                products.forEach(product => {
+                    let shouldDisplay = true;
+
+                    for (const [type, values] of Object.entries(filters)) {
+                        const productValue = product.getAttribute(`data-${type}`);
+                        if (!values.includes(productValue)) {
+                            shouldDisplay = false;
+                            break;
+                        }
+                    }
+
+                    product.style.display = shouldDisplay ? 'flex' : 'none';
+                });
+            }
+
+            filterProducts();
+        });</script>
+</body>
+
+</html>
